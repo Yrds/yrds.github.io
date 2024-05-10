@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content="Yuri dos Santos Personal Website and Blog"/>
-    <title>Blog posts</title>
+    <title>Fixing grub symbol `grub_is_shim_lock_enabled` not found</title>
     <link href="/assets/css/output.css" rel="stylesheet">
     <!-- Pixel Code for https://app.tinyanalytics.io/ -->
     <script defer src="https://app.tinyanalytics.io/pixel/6zBRyPXCojzfK588"></script>
@@ -24,16 +24,33 @@
         
         <div class="bg-white border-solid rounded border-transparent p-4 print:p-0 prose w-full max-w-none print:prose-sm">
           
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/nord.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<h2>Intro</h2>
+<p>This is a quick history on how I've been using <code>--efi-directory</code> grub parameter wrong for years but suddenly grub stopped to handle this mistake by simply not working anymore.</p>
+<h2>The problem</h2>
+<p>Well I'm an Archlinux user (btw) for like 12 years (if I remember correctly) and my grub installation command was the following:</p>
+<pre><code># grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB
+</code></pre>
+<p>And everything worked perfectly... Until some weeks ago.</p>
+<p>If you look my <code>lsblk</code> output you can already detect the problem:</p>
+<pre><code>sdc      8:32   0 111,8G  0 disk 
+├─sdc1   8:33   0     1G  0 part /boot
+└─sdc2   8:34   0 110,8G  0 part /
+</code></pre>
+<p>Don't you see yet?</p>
+<p>Well, the problem is that my esp partition is mounted on <code>/boot</code> while my <code>--efi-directory</code> is pointing to <code>/boot/EFI</code>, and this is wrong!</p>
+<p>Why this? I don't know, probably lazy reading the arch wiki and if it's working why fix it? ¯_(ツ)_/¯</p>
+<p>For some reason this worked until grub 2.12 without any problems, but now it's fixed and I screw up my grub installation.</p>
+<p><a href="https://forums.gentoo.org/viewtopic-p-8820475.html?sid=2fa58a7473b8cc0ec6bd945f761ae75d">Thanks for this Gentoo's forum thread</a></p>
+<p>Since then I've been using refind just because I was lazy enough to not read the wiki with attention to see where I was wrong.</p>
+<h2>The fix</h2>
+<p>This problem affected me and other people but only recently I found the problem.</p>
+<p>Well the fix is really easy: Just point <code>--efi-directory</code> to the same path of your mount point.</p>
+<h2>Conclusion</h2>
+<p>RTF Wiki!</p>
 
-<h1 class="text-xl">Blog Posts</h1>
-<ul>
-
-  <li><a href="/blog/fixing-grub-symbol-grub-is-shim-lock-enabled-not-found.html">Fixing grub symbol `grub_is_shim_lock_enabled` not found</a></li>
-
-  <li><a href="/blog/importing-password-from-firefox-to-pass.html">Import passwords from Firefox to Pass</a></li>
-
-</ul>
-
+<script>hljs.highlightAll();</script>
 
 
         </div>
